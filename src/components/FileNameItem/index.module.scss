@@ -1,0 +1,15 @@
+.tab-item {
+  display: inline-flex;
+  padding: 8px 10px 6px;
+  font-size: 13px;
+  line-height: 20px;
+  white-space: nowrap;
+  cursor: pointer;
+  align-items: center;
+  border-bottom: 3px solid transparent;
+
+  &.Selected {
+    color: skyblue;
+    border-bottom: 3px solid skyblue;
+  }
+}
