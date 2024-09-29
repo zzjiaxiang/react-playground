@@ -1,4 +1,4 @@
-import React, { useContext, useEffect, useState } from 'react';
+import React, { useContext, useMemo } from 'react';
 import { PlaygroundContext } from '../PlaygroundContext';
 import FileNameItem from '../FileNameItem';
 import styles from './index.module.scss';
@@ -6,24 +6,20 @@ import styles from './index.module.scss';
 const FileNameList: React.FC = () => {
   const { files, setSelectedFileName, selectedFileName } = useContext(PlaygroundContext);
 
-  const [tabs, setTabs] = useState(['']);
-
-  useEffect(() => {
-    setTabs(Object.keys(files));
-  }, [files]);
-
-  return (
-    <div className={styles.tabs}>
-      {tabs.map((item) => (
+  const memoizedFileItems = useMemo(
+    () =>
+      Object.keys(files).map((fileName) => (
         <FileNameItem
-          key={item}
-          value={item}
-          Selected={item === selectedFileName}
-          handelClick={() => setSelectedFileName(item)}
-        ></FileNameItem>
-      ))}
-    </div>
+          key={fileName}
+          value={fileName}
+          Selected={fileName === selectedFileName}
+          onClick={() => setSelectedFileName(fileName)}
+        />
+      )),
+    [files, setSelectedFileName, selectedFileName],
   );
+
+  return <div className={styles.tabs}>{memoizedFileItems}</div>;
 };
 
 export default FileNameList;

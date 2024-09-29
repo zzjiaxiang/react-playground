@@ -3,7 +3,7 @@ import importMap from '../template/import-map.json?raw';
 import AppCss from '../template/App.css?raw';
 import App from '../template/App.tsx?raw';
 import main from '../template/main.tsx?raw';
-import { fileNameLanguage } from './_util/utils';
+import { fileNameLanguage } from '../utils';
 
 // import 模块的时候加一个 ?raw，就是直接文本的方式引入模块内容。
 

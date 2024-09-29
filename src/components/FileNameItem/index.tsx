@@ -4,15 +4,15 @@ import styles from './index.module.scss';
 
 interface Props {
   value: string;
-  handelClick: () => void;
+  onClick: () => void;
   Selected: boolean;
 }
 
-const FileNameItem: React.FC<Props> = ({ value, handelClick, Selected }) => {
+const FileNameItem: React.FC<Props> = ({ value, onClick, Selected }) => {
   return (
     <div
       className={classnames(styles['tab-item'], Selected ? styles.Selected : null)}
-      onClick={handelClick}
+      onClick={onClick}
     >
       {value}
     </div>

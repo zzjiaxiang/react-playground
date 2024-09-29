@@ -22,7 +22,7 @@ const Editor: React.FC<Props> = ({ file, onChange, options }) => {
     });
 
     const updateTypeHints = () => ata(editor.getValue());
-    
+
 
     editor.onDidChangeModelContent(updateTypeHints);
     // 开始自动运行一次

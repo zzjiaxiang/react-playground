@@ -6,7 +6,7 @@ import CodeEditor from './CodeEditor';
 import Preview from './Preview';
 const ReactPlayground: React.FC = () => {
   return (
-    <div style={{ height: '100vh' }}>
+    <div style={{ height: '100vh', display: 'flex', flexDirection: 'column' }}>
       <Header />
       <Allotment defaultSizes={[100, 100]}>
         <Allotment.Pane minSize={100}>

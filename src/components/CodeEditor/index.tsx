@@ -10,15 +10,16 @@ const CodeEditor: React.FC = () => {
   const { files, selectedFileName, setFiles } = useContext(PlaygroundContext);
   const file = files[selectedFileName];
 
-  const onEditorChange: EditorProps['onChange'] = (value?: string) => {
+  const onEditorChange = debounce((value: string) => {
     setFiles((draft: Files) => {
       draft[selectedFileName].value = value;
     });
-  };
+  }, 800) as EditorProps['onChange'];
+
   return (
     <div className={style.container}>
       <FileNameList />
-      <Editor file={file} onChange={debounce(onEditorChange, 800)} />
+      <Editor file={file} onChange={onEditorChange} />
     </div>
   );
 };

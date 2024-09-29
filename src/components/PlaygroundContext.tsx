@@ -1,8 +1,8 @@
 import React, { createContext } from 'react';
 import { useImmer } from 'use-immer';
-import { fileNameLanguage } from './_util/utils';
+import { fileNameLanguage } from '../utils';
 import { Files, PlaygroundProps, ContextProps } from './types';
-import initFiles from './files'
+import initFiles from './files';
 export const PlaygroundContext = createContext<ContextProps>({
   selectedFileName: 'App.tsx',
 } as ContextProps);
