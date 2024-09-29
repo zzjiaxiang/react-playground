@@ -18,4 +18,12 @@
       margin-right: 10px;
     }
   }
+  &.right{
+    display: flex;
+    gap: 5px;
+
+    &.icon{
+      cursor: pointer;
+    }
+  }
 }

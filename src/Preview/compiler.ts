@@ -3,16 +3,14 @@
 // https://github.com/jamiebuilds/babel-handbook/blob/master/translations/zh-Hans/plugin-handbook.md
 import { transform } from '@babel/standalone';
 import { PluginObj } from '@babel/core';
-const customResolver = (files: Files): PluginObj => {
-  console.log(files)
-  return {
-    visitor: {
-      ImportDeclaration(path) {
-        path.node.source.value = '23333';
-      },
+const customResolver = (files: Files): PluginObj => ({
+  visitor: {
+    ImportDeclaration(path) {
+      path.node.source.value = '23333';
     },
-  };
-};
+  },
+});
+
 import { Files } from '../components/types';
 import { ENTRY_FILE_NAME } from '../components/files';
 
