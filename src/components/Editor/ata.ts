@@ -10,7 +10,7 @@ export const createATA = async (onDownloadFile: (code: string, path: string) => 
     logger: console,
     delegate: {
       receivedFile: (code, path) => {
-        console.info('自动下载的包', { code }, { path });
+        console.info('自动下载的包', { path });
         onDownloadFile(code, path);
       },
     },
@@ -22,7 +22,7 @@ async function importTsFromCdn(tsVersion: string) {
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
   (globalThis as any).module = { exports: {} };
   const tsUrl = `https://cdn.jsdelivr.net/npm/typescript@${tsVersion}/lib/typescript.js`;
-  await import(tsUrl);
+  await import(/* @vite-ignore */ tsUrl);
   const ts = globalThis.module.exports;
   globalThis.module = _module;
   return ts as typeof import('typescript');
