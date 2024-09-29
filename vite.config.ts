@@ -7,7 +7,7 @@ export default {
   plugins: [
     react(),
     visualizer({
-      open: true,
+      open: false,
     }),
   ],
   build: {
