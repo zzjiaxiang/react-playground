@@ -1,5 +1,5 @@
 import React from 'react';
-import { Draft } from 'immer';
+import { Updater } from 'use-immer';
 
 export interface File {
   name: string;
@@ -13,9 +13,6 @@ export interface Files {
 export interface PlaygroundProps {
   children: React.ReactNode;
 }
-
-type DraftFunction<S> = (draft: Draft<S>) => void;
-type Updater<S> = (arg: S | DraftFunction<S>) => void;
 
 export interface ContextProps {
   files: Files;

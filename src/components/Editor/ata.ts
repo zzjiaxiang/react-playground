@@ -1,9 +1,9 @@
 // see https://www.npmjs.com/package/@typescript/ata
 import { setupTypeAcquisition } from '@typescript/ata';
-import ts from 'typescript';
 
-export const createATA = (onDownloadFile: (code: string, path: string) => void) =>
-  setupTypeAcquisition({
+export const createATA = async (onDownloadFile: (code: string, path: string) => void) => {
+  const ts = await import('typescript');
+  return setupTypeAcquisition({
     projectName: 'My ATA Project',
     typescript: ts,
     logger: console,
@@ -14,3 +14,4 @@ export const createATA = (onDownloadFile: (code: string, path: string) => void) 
       },
     },
   });
+};

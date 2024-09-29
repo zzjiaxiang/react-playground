@@ -6,7 +6,7 @@ import { Props } from './types';
 const Editor: React.FC<Props> = ({ file, onChange, options }) => {
   const { name, value, language } = file;
 
-  const handleEditorMount: OnMount = (editor, monaco) => {
+  const handleEditorMount: OnMount = async (editor, monaco) => {
     // https://github.com/microsoft/monaco-editor/issues/264
     // 设置 jsx 为 preserve，也就是输入 <div> 输出 <div>，保留原样
     // 如果设置为 react 会输出 React.createElement("div")
@@ -17,7 +17,7 @@ const Editor: React.FC<Props> = ({ file, onChange, options }) => {
 
     // 做类型提示
     // 根据编辑器的内容自动下载 *.d.ts 文件的依赖
-    const ata = createATA((code, path) => {
+    const ata = await createATA((code, path) => {
       monaco.languages.typescript.typescriptDefaults.addExtraLib(code, `file://${path}`);
     });
 
