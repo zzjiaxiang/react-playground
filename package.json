@@ -1,5 +1,6 @@
 {
   "name": "react-playground",
+  "packageManager": "pnpm@9.5.0",
   "private": true,
   "version": "0.0.1",
   "type": "module",
@@ -44,6 +45,5 @@
   },
   "engines": {
     "node": ">=20"
-  },
-  "packageManager": "^yarn@1.22.22"
+  }
 }
