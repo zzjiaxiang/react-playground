@@ -7,7 +7,7 @@ import FileNameList from '../FileNameList';
 import style from './index.module.scss';
 import { Files } from '../types';
 const CodeEditor: React.FC = () => {
-  const { files, selectedFileName, setFiles } = useContext(PlaygroundContext);
+  const { files, selectedFileName, setFiles, theme } = useContext(PlaygroundContext);
   const file = files[selectedFileName];
 
   const onEditorChange = debounce((value: string) => {
@@ -19,7 +19,7 @@ const CodeEditor: React.FC = () => {
   return (
     <div className={style.container}>
       <FileNameList />
-      <Editor file={file} onChange={onEditorChange} />
+      <Editor file={file} onChange={onEditorChange} options={{ theme: `vs-${theme}` }} />
     </div>
   );
 };

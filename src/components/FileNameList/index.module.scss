@@ -5,11 +5,9 @@
   height: 38px;
   overflow-x: auto;
   overflow-y: hidden;
-  border-bottom: 1px solid #ddd;
-  box-sizing: border-box;
+  border-bottom: 1px solid var(--border);
 
-  color: #444;
-  background-color: #fff;
+  box-sizing: border-box;
 
   &::-webkit-scrollbar {
     height: 1px;

@@ -1,16 +1,20 @@
-import React, { createContext } from 'react';
+import React, { createContext, useState,PropsWithChildren } from 'react';
 import { useImmer } from 'use-immer';
 import { fileNameLanguage } from '../utils';
-import { Files, PlaygroundProps, ContextProps } from './types';
+import { Files, ContextProps, Theme } from './types';
 import initFiles from './files';
+
+const { matches } = window.matchMedia('(prefers-color-scheme: light)');
+const SysTheme = matches ? 'light' : 'dark';
+
 export const PlaygroundContext = createContext<ContextProps>({
   selectedFileName: 'App.tsx',
 } as ContextProps);
 
-const PlaygroundProvider: React.FC<PlaygroundProps> = ({ children }) => {
+const PlaygroundProvider: React.FC<PropsWithChildren> = ({ children }) => {
   const [files, setFiles] = useImmer<Files>(initFiles);
   const [selectedFileName, setSelectedFileName] = useImmer('App.tsx');
-
+  const [theme, setTheme] = useState<Theme>(SysTheme);
   const addFile = (name: string) => {
     setFiles((draft) => {
       draft[name] = {
@@ -44,6 +48,8 @@ const PlaygroundProvider: React.FC<PlaygroundProps> = ({ children }) => {
   };
 
   const contextValue = {
+    theme,
+    setTheme,
     files,
     selectedFileName,
     setSelectedFileName,

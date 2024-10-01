@@ -1,12 +1,16 @@
-import React from 'react';
+import React, { useContext } from 'react';
 import { Allotment } from 'allotment';
 import 'allotment/dist/style.css';
 import Header from './Header';
 import CodeEditor from './CodeEditor';
 import Preview from './Preview';
+import { PlaygroundContext } from './PlaygroundContext';
+import styles from './index.module.scss';
 const ReactPlayground: React.FC = () => {
+  const { theme } = useContext(PlaygroundContext);
+
   return (
-    <div style={{ height: '100vh', display: 'flex', flexDirection: 'column' }}>
+    <div className={`${styles.container} ${theme}`}>
       <Header />
       <Allotment defaultSizes={[100, 100]}>
         <Allotment.Pane minSize={100}>

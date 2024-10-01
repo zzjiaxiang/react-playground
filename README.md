@@ -1,50 +1,39 @@
-# React + TypeScript + Vite
+# 代码编辑器
 
-This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
+编辑器用的 [monaco-react](https://github.com/suren-atoyan/monaco-react#readme)
 
-Currently, two official plugins are available:
+# 代码编译
 
-- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react/README.md) uses [Babel](https://babeljs.io/) for Fast Refresh
-- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react-swc) uses [SWC](https://swc.rs/) for Fast Refresh
+编译用的 [@babel/standalone](https://babeljs.io/docs/babel-standalone) babel 的浏览器版本,可以把 tsx 编译成 js
 
-## Expanding the ESLint configuration
+编译过程中用自己写的 babel 插件实现 import 的 source 的修改，变为 URL.createObjectURL + Blob 生成的 [blob url](https://developer.mozilla.org/en-US/docs/Web/API/Blob#creating_a_url_representing_the_contents_of_a_typed_array)，把模块内容内联进去。
 
-If you are developing a production application, we recommend updating the configuration to enable type aware lint rules:
+对于 react、react-dom 这种包，用 import maps 配合 esm.sh 网站来引入。
 
-- Configure the top-level `parserOptions` property like this:
+对于动态导入的文件例如: import App from './App.tsx';
 
-```js
-export default tseslint.config({
-  languageOptions: {
-    // other options...
-    parserOptions: {
-      project: ['./tsconfig.node.json', './tsconfig.app.json'],
-      tsconfigRootDir: import.meta.dirname,
-    },
-  },
-})
-```
+## blob url 示例:
 
-- Replace `tseslint.configs.recommended` to `tseslint.configs.recommendedTypeChecked` or `tseslint.configs.strictTypeChecked`
-- Optionally add `...tseslint.configs.stylisticTypeChecked`
-- Install [eslint-plugin-react](https://github.com/jsx-eslint/eslint-plugin-react) and update the config:
+简单来说就是将js文件变成url使用
 
 ```js
-// eslint.config.js
-import react from 'eslint-plugin-react'
+const code1 = `
+function add(a, b) {
+    return a + b;
+}
+export { add };
+`;
 
-export default tseslint.config({
-  // Set the react version
-  settings: { react: { version: '18.3' } },
-  plugins: {
-    // Add the react plugin
-    react,
-  },
-  rules: {
-    // other rules...
-    // Enable its recommended rules
-    ...react.configs.recommended.rules,
-    ...react.configs['jsx-runtime'].rules,
-  },
-})
+const url = URL.createObjectURL(new Blob([code1], { type: 'application/javascript' }));
+// url = `blob:https://developer.mozilla.org/968ee7ac-87df-4566-8890-e388d67fed8d`
+
+const code2 = `import { add } from "${url}"; console.log(add(2, 3));`;
+// code2 = 'import { add } from "blob:https://developer.mozilla.org/968ee7ac-87df-4566-8890-e388d67fed8d"; console.log(add(2, 3));'
+
+const script = document.createElement('script');
+script.type = 'module';
+script.textContent = code2;
+document.body.appendChild(script);
 ```
+
+在浏览器控制台跑下这段代码如下: ![](https://png.zjiaxiang.cn/blog/202410010102112.png)

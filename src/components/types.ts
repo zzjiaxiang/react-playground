@@ -1,4 +1,3 @@
-import React from 'react';
 import { Updater } from 'use-immer';
 
 export interface File {
@@ -10,11 +9,12 @@ export interface File {
 export interface Files {
   [key: string]: File;
 }
-export interface PlaygroundProps {
-  children: React.ReactNode;
-}
+
+export type Theme = 'light' | 'dark';
 
 export interface ContextProps {
+  theme: Theme;
+  setTheme: (theme: Theme) => void;
   files: Files;
   selectedFileName: string;
   setSelectedFileName: (fileName: string) => void;
