@@ -1,8 +1,10 @@
-import React, { createContext, useState,PropsWithChildren } from 'react';
+import React, { createContext, useState, PropsWithChildren, useEffect } from 'react';
 import { useImmer } from 'use-immer';
 import { fileNameLanguage } from '../utils';
 import { Files, ContextProps, Theme } from './types';
 import initFiles from './files';
+import defaultTemp from '../template/default?raw';
+import { utoa, atou } from '../utils';
 
 const { matches } = window.matchMedia('(prefers-color-scheme: light)');
 const SysTheme = matches ? 'light' : 'dark';
@@ -11,16 +13,32 @@ export const PlaygroundContext = createContext<ContextProps>({
   selectedFileName: 'App.tsx',
 } as ContextProps);
 
+const getFilesFromUrl = () => {
+  let files: Files = initFiles;
+  try {
+    const hash = atou(window.location.hash.slice(1));
+    files = JSON.parse(hash);
+  } catch (error) {
+    console.error(error);
+  }
+  return files;
+};
 const PlaygroundProvider: React.FC<PropsWithChildren> = ({ children }) => {
-  const [files, setFiles] = useImmer<Files>(initFiles);
-  const [selectedFileName, setSelectedFileName] = useImmer('App.tsx');
+  const [files, setFiles] = useImmer<Files>(getFilesFromUrl());
+  const [selectedFileName, setSelectedFileName] = useState('App.tsx');
   const [theme, setTheme] = useState<Theme>(SysTheme);
-  const addFile = (name: string) => {
+
+  useEffect(() => {
+    const hash = JSON.stringify(files);
+    window.location.hash = utoa(hash);
+  }, [files]);
+
+  const addFile = (name = 'Comp.tsx') => {
     setFiles((draft) => {
       draft[name] = {
         name,
         language: fileNameLanguage(name),
-        value: '',
+        value: defaultTemp,
       };
     });
   };
@@ -33,6 +51,7 @@ const PlaygroundProvider: React.FC<PropsWithChildren> = ({ children }) => {
 
   const updateFileName = (oldFileName: string, newFileName: string) => {
     if (!files[oldFileName] || !newFileName) return;
+    if (Object.is(oldFileName, newFileName)) return;
 
     setFiles((draft) => {
       const file = draft[oldFileName];

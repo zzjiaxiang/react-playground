@@ -1,16 +1,23 @@
 import React, { useContext } from 'react';
-import { MoonOutlined, SunOutlined, GithubOutlined, ShareAltOutlined } from '@ant-design/icons';
+import {
+  MoonOutlined,
+  SunOutlined,
+  GithubOutlined,
+  ShareAltOutlined,
+  DownloadOutlined,
+} from '@ant-design/icons';
 import { CopyToClipboard } from 'react-copy-to-clipboard';
 import { message } from 'antd';
 import { PlaygroundContext } from '../PlaygroundContext';
 import logoSvg from '../../assets/react.svg';
 import styles from './index.module.scss';
+import { downloadFiles } from '../../utils';
 
 const linkToGithub = () => {
   window.open('https://github.com/zzjiaxiang/react-playground');
 };
 const Header: React.FC = () => {
-  const { theme, setTheme } = useContext(PlaygroundContext);
+  const { theme, setTheme, files } = useContext(PlaygroundContext);
   const [messageApi, contextHolder] = message.useMessage();
 
   const onCopy = () => {
@@ -18,6 +25,9 @@ const Header: React.FC = () => {
       type: 'success',
       content: '链接已复制到剪贴板!',
     });
+  };
+  const download = () => {
+    downloadFiles(files);
   };
   return (
     <>
@@ -37,6 +47,7 @@ const Header: React.FC = () => {
             <ShareAltOutlined className={styles.anticon} />
           </CopyToClipboard>
           <GithubOutlined className={styles.anticon} onClick={linkToGithub} />
+          <DownloadOutlined className={styles.anticon} onClick={download} />
         </div>
       </div>
     </>

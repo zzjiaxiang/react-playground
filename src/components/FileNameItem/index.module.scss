@@ -5,11 +5,17 @@
   line-height: 20px;
   white-space: nowrap;
   cursor: pointer;
+  gap: 4px;
   align-items: center;
   border-bottom: 3px solid transparent;
 
-  &.Selected {
+  &.selected {
     color: skyblue;
     border-bottom: 3px solid skyblue;
+  }
+  .ant-input{
+    background-color: #dddddd;
+    border: none;
+    width: 100px;
   }
 }
