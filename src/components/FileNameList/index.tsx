@@ -23,27 +23,58 @@ const FileNameList: React.FC = () => {
    * 然后删除这个文件
    */
   const deleteFile = (name: string) => {
+    if (!confirm(`Are you sure you want to delete ${name}?`)) {
+      return;
+    }
     setSelectedFileName(APP_COMPONENT_FILE_NAME);
     removeFile(name);
   };
   const addTab = () => {
-    addFile('Comp.tsx');
+    let i = 0;
+    let name = `Comp.tsx`;
+
+    while (true) {
+      let hasConflict = false;
+      for (const filename of Object.keys(files)) {
+        if (filename === name) {
+          hasConflict = true;
+          name = `Comp${++i}.tsx`;
+          break;
+        }
+      }
+      if (!hasConflict) {
+        break;
+      }
+    }
+    addFile(name);
   };
   return (
     <div className={styles.tabs}>
-      {Object.keys(files).map((fileName) => (
+      <div className={styles.left}>
+        {Object.keys(files)
+          .filter((fileName) => fileName !== IMPORT_MAP_FILE_NAME)
+          .map((fileName) => (
+            <FileNameItem
+              readonly={readonlyFileNames.includes(fileName)}
+              key={fileName}
+              value={fileName}
+              selected={fileName === selectedFileName}
+              onClick={() => setSelectedFileName(fileName)}
+              onEditComplete={(name: string) => handleEditComplete(name, fileName)}
+              onRemoveFile={() => deleteFile(fileName)}
+            />
+          ))}
+        <div className={styles.add} onClick={addTab}>
+          +
+        </div>
+      </div>
+      <div className={styles.right}>
         <FileNameItem
-          readonly={readonlyFileNames.includes(fileName)}
-          key={fileName}
-          value={fileName}
-          selected={fileName === selectedFileName}
-          onClick={() => setSelectedFileName(fileName)}
-          onEditComplete={(name: string) => handleEditComplete(name, fileName)}
-          onRemoveFile={() => deleteFile(fileName)}
+          readonly
+          value={IMPORT_MAP_FILE_NAME}
+          selected={IMPORT_MAP_FILE_NAME === selectedFileName}
+          onClick={() => setSelectedFileName(IMPORT_MAP_FILE_NAME)}
         />
-      ))}
-      <div className={styles.add} onClick={addTab}>
-        +
       </div>
     </div>
   );

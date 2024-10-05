@@ -10,8 +10,8 @@ interface Props {
   onClick: () => void;
   selected: boolean;
   readonly: boolean;
-  onEditComplete: (name: string) => void;
-  onRemoveFile: () => void;
+  onEditComplete?: (name: string) => void;
+  onRemoveFile?: () => void;
 }
 
 const FileNameItem: React.FC<Props> = ({
@@ -33,11 +33,11 @@ const FileNameItem: React.FC<Props> = ({
   };
   const handleInputBlur = () => {
     setEditing(false);
-    onEditComplete(name);
+    onEditComplete?.(name);
   };
   const handleRemoveFile = (e: React.MouseEvent) => {
     e.stopPropagation();
-    onRemoveFile();
+    onRemoveFile?.();
   };
   return (
     <div
