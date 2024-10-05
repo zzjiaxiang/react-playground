@@ -3,15 +3,19 @@ import { PluginObj } from '@babel/core';
 import { Files, File } from '../types';
 import { ENTRY_FILE_NAME } from '../files';
 const FILE_EXTENSIONS = ['.ts', '.tsx', '.js', '.jsx'];
+const regexReact = /import\s+React\s*(,?\s*\{[^}]*\}\s*)?from\s+['"]react['"]/;
 
+/**
+ * 因为编译后的文件被转化成了React.createElement,但是文件可能没有 import React导入，所以这里引入.
+ * 规则1: import React from 'react',规则2: import React,{useXXX} from 'react'
+ */
 export const beforeTransformCode = (filename: string, code: string) => {
-  const regexReact = /import\s+React/g;
   return (filename.endsWith('.jsx') || filename.endsWith('.tsx')) && !regexReact.test(code)
     ? `import React from 'react';\n${code}`
     : code;
 };
 
-export const babelTransform = (filename: string, code: string = '', files: Files): string => {
+export const babelTransform = (filename: string, code = '', files: Files): string => {
   const transformedCode = beforeTransformCode(filename, code);
   try {
     return (

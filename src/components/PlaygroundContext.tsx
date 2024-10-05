@@ -14,15 +14,18 @@ export const PlaygroundContext = createContext<ContextProps>({
 } as ContextProps);
 
 const getFilesFromUrl = () => {
-  let files: Files = initFiles;
+  const data = window.location.hash.slice(1);
+  if (!data) return initFiles;
+
   try {
-    const hash = atou(window.location.hash.slice(1));
-    files = JSON.parse(hash);
+    const hash = atou(data);
+    return JSON.parse(hash);
   } catch (error) {
-    console.error(error);
+    console.error('Error parsing files from URL:', error);
+    return initFiles;
   }
-  return files;
 };
+
 const PlaygroundProvider: React.FC<PropsWithChildren> = ({ children }) => {
   const [files, setFiles] = useImmer<Files>(getFilesFromUrl());
   const [selectedFileName, setSelectedFileName] = useState('App.tsx');

@@ -8,6 +8,7 @@
 </head>
 
 <body>
+  <div id="root"></div>
   <script>
     window.addEventListener('error', ({message}) => {
       window.parent.postMessage({ type: 'ERROR', message })
@@ -15,9 +16,6 @@
   </script>
   <script type="importmap"></script>
   <script type="module" id="appSrc"></script>
-  <div id="root"></div>
-
-
 </body>
 
 </html>
