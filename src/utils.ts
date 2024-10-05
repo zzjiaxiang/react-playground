@@ -1,5 +1,5 @@
 import { strFromU8, strToU8, unzlibSync, zlibSync } from 'fflate';
-import { saveAs } from 'file-saver';
+import saveAs from 'file-saver';
 import JSZip from 'jszip';
 import { Files } from './components/types';
 
@@ -47,5 +47,5 @@ export async function downloadFiles(files: Files) {
   });
 
   const blob = await zip.generateAsync({ type: 'blob' });
-  saveAs(blob, `code${Math.random().toString().slice(2, 8)}.zip`);
+  saveAs.saveAs(blob, `code${Math.random().toString().slice(2, 8)}.zip`);
 }
