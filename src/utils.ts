@@ -49,22 +49,3 @@ export async function downloadFiles(files: Files) {
   const blob = await zip.generateAsync({ type: 'blob' });
   saveAs(blob, `code${Math.random().toString().slice(2, 8)}.zip`);
 }
-
-// function fileSaver(blob: Blob, name: string) {
-//   const url = window.URL.createObjectURL(blob);
-//   const link = document.createElement('a');
-//   link.href = url;
-//   link.download = name;
-//   link.click();
-//   setTimeout(() => {
-//     window.URL.revokeObjectURL(url);
-//   }, 0);
-// }
-/*
-使用file-saver打包报错,暂时用a标签代替下载
-18:59:45.092	error during build:
-18:59:45.092	[vite]: Rollup failed to resolve import "file-saver" from "/opt/buildhome/repo/src/utils.ts".
-18:59:45.092	This is most likely unintended because it can break your application at runtime.
-18:59:45.092	If you do want to externalize this module explicitly add it to
-18:59:45.093	`build.rollupOptions.external`
- */
