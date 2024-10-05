@@ -15,7 +15,6 @@ export default {
       output: {
         manualChunks: {
           react: ['react', 'react-dom'],
-          standalone: ['@babel/standalone'],
         },
       },
     },
