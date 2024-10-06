@@ -36,7 +36,7 @@ const PlaygroundProvider: React.FC<PropsWithChildren> = ({ children }) => {
     window.location.hash = utoa(hash);
   }, [files]);
 
-  const addFile = (name = 'Comp.tsx') => {
+  const addFile = (name:string) => {
     setFiles((draft) => {
       draft[name] = {
         name,
