@@ -1,4 +1,4 @@
-import React, { useContext } from 'react';
+import React, { useContext, memo } from 'react';
 import {
   MoonOutlined,
   SunOutlined,
@@ -6,7 +6,6 @@ import {
   ShareAltOutlined,
   DownloadOutlined,
 } from '@ant-design/icons';
-import { CopyToClipboard } from 'react-copy-to-clipboard';
 import { message } from 'antd';
 import { PlaygroundContext } from '../PlaygroundContext';
 import logoSvg from '../../assets/react.svg';
@@ -20,12 +19,22 @@ const Header: React.FC = () => {
   const { theme, setTheme, files } = useContext(PlaygroundContext);
   const [messageApi, contextHolder] = message.useMessage();
 
-  const onCopy = () => {
-    messageApi.open({
-      type: 'success',
-      content: '链接已复制到剪贴板!',
-    });
+  const onCopy = async () => {
+    const currentUrl = window.location.href;
+    try {
+      await navigator.clipboard.writeText(currentUrl);
+      messageApi.open({
+        type: 'success',
+        content: '链接已复制到剪贴板!',
+      });
+    } catch (err) {
+      messageApi.open({
+        type: 'error',
+        content: `复制失败!${err}`,
+      });
+    }
   };
+
   const download = () => {
     downloadFiles(files);
   };
@@ -43,9 +52,7 @@ const Header: React.FC = () => {
           ) : (
             <MoonOutlined className={styles.anticon} onClick={() => setTheme('light')} />
           )}
-          <CopyToClipboard text={window.location.href} onCopy={onCopy}>
-            <ShareAltOutlined className={styles.anticon} />
-          </CopyToClipboard>
+          <ShareAltOutlined onClick={onCopy} className={styles.anticon} />
           <GithubOutlined className={styles.anticon} onClick={linkToGithub} />
           <DownloadOutlined className={styles.anticon} onClick={download} />
         </div>
@@ -54,4 +61,4 @@ const Header: React.FC = () => {
   );
 };
 
-export default Header;
+export default memo(Header);
