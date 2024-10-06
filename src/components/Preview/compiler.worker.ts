@@ -27,7 +27,7 @@ export const babelTransform = (filename: string, code = '', files: Files): strin
       }).code || ''
     );
   } catch (e) {
-    console.error(`Compilation error: ${e}`);
+    self.postMessage({ type: 'ERROR', e });
     return '';
   }
 };
@@ -92,12 +92,8 @@ export const compile = (files: Files): string => {
 };
 
 self.addEventListener('message', async ({ data }) => {
-  try {
-    self.postMessage({
-      type: 'COMPILED_CODE',
-      data: compile(data),
-    });
-  } catch (error) {
-    self.postMessage({ type: 'ERROR', error });
-  }
+  self.postMessage({
+    type: 'COMPILED_CODE',
+    data: compile(data),
+  });
 });

@@ -27,7 +27,7 @@ const getFilesFromUrl = () => {
 };
 
 const PlaygroundProvider: React.FC<PropsWithChildren> = ({ children }) => {
-  const [files, setFiles] = useImmer<Files>(getFilesFromUrl());
+  const [files, setFiles] = useImmer<Files>(getFilesFromUrl);
   const [selectedFileName, setSelectedFileName] = useState('App.tsx');
   const [theme, setTheme] = useState<Theme>(SysTheme);
 
@@ -36,7 +36,7 @@ const PlaygroundProvider: React.FC<PropsWithChildren> = ({ children }) => {
     window.location.hash = utoa(hash);
   }, [files]);
 
-  const addFile = (name:string) => {
+  const addFile = (name: string) => {
     setFiles((draft) => {
       draft[name] = {
         name,

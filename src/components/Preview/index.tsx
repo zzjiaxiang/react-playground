@@ -29,6 +29,7 @@ const Preview: React.FC = () => {
       compilerWorkerRef.current.addEventListener('message', ({ data: { type, data } }) => {
         if (type === 'COMPILED_CODE') {
           setCompiledCode(data);
+          setError('');
         }
       });
     }
@@ -41,16 +42,14 @@ const Preview: React.FC = () => {
   const [error, setError] = useState('');
 
   const handleMessage = ({ data: { type, message } }: MessageData) => {
-    if (type === 'ERROR') {
+    if (type === 'iframeError') {
       setError(message);
     }
   };
 
   useEffect(() => {
     window.addEventListener('message', handleMessage);
-    return () => {
-      window.removeEventListener('message', handleMessage);
-    };
+    return () => window.removeEventListener('message', handleMessage);
   }, []);
 
   const IframeUrl = useMemo(() => {

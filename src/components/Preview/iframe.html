@@ -11,7 +11,7 @@
   <div id="root"></div>
   <script>
     window.addEventListener('error', ({message}) => {
-      window.parent.postMessage({ type: 'ERROR', message })
+      window.parent.postMessage({ type: 'iframeError', message })
     })
   </script>
   <script type="importmap"></script>

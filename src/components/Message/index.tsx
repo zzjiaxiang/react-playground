@@ -7,18 +7,17 @@ export interface MessageProps {
   type: 'error' | 'warn';
   content: string;
 }
-
 const Message: React.FC<MessageProps> = ({ type, content }) => {
-  const [visible, setVisible] = useState(false);
+  const [show, setShow] = useState(!!content);
 
   useEffect(() => {
-    setVisible(!!content);
+    setShow(!!content);
   }, [content]);
 
-  return visible ? (
+  return show ? (
     <div className={classnames(styles.msg, styles[type])}>
       <pre dangerouslySetInnerHTML={{ __html: content }}></pre>
-      <button className={styles.dismiss} onClick={() => setVisible(false)}>
+      <button className={styles.dismiss} onClick={() => setShow(false)}>
         ✕
       </button>
     </div>
