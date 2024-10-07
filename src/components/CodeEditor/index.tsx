@@ -1,4 +1,4 @@
-import React, { useContext } from 'react';
+import React, { useContext, useCallback, useMemo } from 'react';
 import { EditorProps } from '@monaco-editor/react';
 import { debounce } from 'lodash-es';
 import { PlaygroundContext } from '../PlaygroundContext';
@@ -8,13 +8,15 @@ import style from './index.module.scss';
 import { Files } from '../types';
 const CodeEditor: React.FC = () => {
   const { files, selectedFileName, setFiles, theme } = useContext(PlaygroundContext);
-  const file = files[selectedFileName];
+  const file = useMemo(() => files[selectedFileName], [files, selectedFileName]);
 
-  const onEditorChange = debounce((value: string) => {
-    setFiles((draft: Files) => {
-      draft[selectedFileName].value = value;
-    });
-  }, 800) as EditorProps['onChange'];
+  const onEditorChange = useCallback(() => {
+    debounce((value: string) => {
+      setFiles((draft: Files) => {
+        draft[selectedFileName].value = value;
+      });
+    }, 800) as EditorProps['onChange'];
+  }, [selectedFileName]);
 
   return (
     <div className={style.container}>
