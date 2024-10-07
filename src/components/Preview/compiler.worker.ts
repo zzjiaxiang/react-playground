@@ -86,6 +86,9 @@ const customResolver = (files: Files): PluginObj => ({
   },
 });
 
+/**
+ * main.tsx 编译入口文件
+ */
 export const compile = (files: Files): string => {
   const main = files[ENTRY_FILE_NAME];
   return babelTransform(ENTRY_FILE_NAME, main?.value, files);
