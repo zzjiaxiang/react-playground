@@ -10,13 +10,14 @@ const CodeEditor: React.FC = () => {
   const { files, selectedFileName, setFiles, theme } = useContext(PlaygroundContext);
   const file = useMemo(() => files[selectedFileName], [files, selectedFileName]);
 
-  const onEditorChange = useCallback(() => {
+  const onEditorChange = useCallback(
     debounce((value: string) => {
       setFiles((draft: Files) => {
         draft[selectedFileName].value = value;
       });
-    }, 800) as EditorProps['onChange'];
-  }, [selectedFileName]);
+    }, 800),
+    [selectedFileName]
+  ) as EditorProps['onChange'];
 
   return (
     <div className={style.container}>
