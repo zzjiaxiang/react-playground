@@ -1,4 +1,4 @@
-import { Updater } from 'use-immer';
+import type { Updater } from 'use-immer';
 
 export interface File {
   name: string;
