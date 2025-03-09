@@ -26,7 +26,7 @@
     "react": "^18.3.1",
     "react-dom": "^18.3.1",
     "sass-embedded": "^1.85.1",
-    "use-immer": "^0.10.0"
+    "use-immer": "^0.11.0"
   },
   "devDependencies": {
     "@babel/types": "^7.26.9",
